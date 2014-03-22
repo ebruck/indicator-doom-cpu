@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=System;
+Comment=CPU Load Indicator using DOOM face.
+Exec=/usr/share/indicator-doom-cpu/indicator-doom-cpu
+Hidden=False
+Icon=/usr/share/indicator-doom-cpu/icons/1.png
+Name=DOOM CPU Indicator
+StartupNotify=false
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true

@@ -19,4 +19,9 @@ Build Debian Package
 * `cd build`
 * `cmake ../debian/`
 * `make package`
-* `dpkg -i ./indicator-doom-cpu-1.0.0-ubuntu.deb`
+* `dpkg -i indicator-doom-cpu-1.0.0-noarch.deb`
+
+Todo
+----
+
+Integrate ideas from [GKrellFlynn](http://bax.comlab.uni-rostock.de/en/projects/flynn/)
