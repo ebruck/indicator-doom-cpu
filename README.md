@@ -19,7 +19,7 @@ Build Debian Package
 * `cd build`
 * `cmake ../debian/`
 * `make package`
-* `dpkg -i indicator-doom-cpu-1.0.0-noarch.deb`
+* `sudo dpkg -i indicator-doom-cpu-1.0.0-noarch.deb`
 
 Todo
 ----
