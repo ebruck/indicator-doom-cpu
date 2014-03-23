@@ -7,6 +7,8 @@ DOOM images are the property of id Software.
 
 Inspired by [DOOM CPU Monitor](https://github.com/AshFurrow/DOOM-CPU-Monitor) for the Mac.
 
+Latest Debian package [indicator-doom-cpu.zip](https://dl.dropboxusercontent.com/u/5125656/indicator-doom-cpu.zip)
+
 Screenshot
 ----------
 
