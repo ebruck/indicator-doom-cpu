@@ -161,7 +161,7 @@ class DOOMCPUIndicator(AbstractDOOMCPUIndicator):
 
     def build_menu(self):
         super(DOOMCPUIndicator, self).build_menu()
-        self.app_indicator.set_menu(menu)
+        self.app_indicator.set_menu(self.menu)
 
     def set_icon(self, icon):
     	super(DOOMCPUIndicator, self).set_icon(icon)
