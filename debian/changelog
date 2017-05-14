@@ -1,3 +1,9 @@
+indicator-doom-cpu (1.0.1)
+
+	* Support AppIndicator and GtkStatusIcon tray API
+	* Fixed image dimensions to force proper rendering
+
 indicator-doom-cpu (1.0.0)
 
-	  * Initial release.
+	* Initial release.
+

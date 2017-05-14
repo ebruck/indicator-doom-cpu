@@ -17,11 +17,9 @@ with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 APP_NAME = 'DOOM CPU Indicator'
 APP_WEBSITE = 'https://github.com/ebruck/indicator-doom-cpu'
-APP_VERSION = '1.0.0'
+APP_VERSION = '1.0.1'
 APP_COPYRIGHT = '\n'.join([c for c in str.splitlines(APP_LICENCE) if c.startswith("Copyright")])
 APP_AUTHORS = [a[10:] for a in str.splitlines(APP_LICENCE) if a.startswith("Copyright")]
-
-print(APP_AUTHORS)
 
 import os
 import time

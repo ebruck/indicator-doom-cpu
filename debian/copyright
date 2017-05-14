@@ -4,7 +4,7 @@ Upstream-Contact: Edward G. Bruck <ed.bruck1@gmail.com>
 Source: https://github.com/ebruck/indicator-doom-cpu
 
 Files: *
-Copyright: Copyright (C) 2014 Edward G. Bruck
+Copyright: Copyright (C) 2014,2017 Edward G. Bruck
 License: GPL-3+
  The full text of the GPL is distributed in
  /usr/share/common-licenses/GPL-3 on Debian systems.

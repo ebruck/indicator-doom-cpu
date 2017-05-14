@@ -7,7 +7,7 @@ DOOM images are the property of id Software.
 
 Inspired by [DOOM CPU Monitor](https://github.com/AshFurrow/DOOM-CPU-Monitor) for the Mac.
 
-Latest Debian package [indicator-doom-cpu-1.0.0-noarch.deb](https://github.com/ebruck/indicator-doom-cpu/releases/download/v1.0/indicator-doom-cpu-1.0.0-noarch.deb)
+Latest Debian package [indicator-doom-cpu-1.0.1-noarch.deb](https://github.com/ebruck/indicator-doom-cpu/releases/download/v1.0.1/indicator-doom-cpu-1.0.1-noarch.deb)
 
 Screenshot
 ----------
@@ -21,7 +21,7 @@ Build Debian Package
 * `cd build`
 * `cmake ../debian/`
 * `make package`
-* `sudo dpkg -i indicator-doom-cpu-1.0.0-noarch.deb`
+* `sudo dpkg -i indicator-doom-cpu-1.0.1-noarch.deb`
 
 Todo
 ----
