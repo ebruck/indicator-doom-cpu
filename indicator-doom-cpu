@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 APP_LICENCE = '''
 Copyright (C) 2014 Edward G. Bruck <ed.bruck1@gmail.com>
+Copyright (C) 2017 Andrea Brancaleoni <miwaxe@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License version 3, as published
@@ -15,15 +16,23 @@ You should have received a copy of the GNU General Public License along
 with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 APP_NAME = 'DOOM CPU Indicator'
-APP_AUTHOR = 'Edward G. Bruck <ed.bruck1@gmail.com>'
 APP_WEBSITE = 'https://github.com/ebruck/indicator-doom-cpu'
 APP_VERSION = '1.0.0'
+APP_COPYRIGHT = '\n'.join([c for c in str.splitlines(APP_LICENCE) if c.startswith("Copyright")])
+APP_AUTHORS = [a[10:] for a in str.splitlines(APP_LICENCE) if a.startswith("Copyright")]
+
+print(APP_AUTHORS)
 
 import os
 import time
 
 from gi.repository import Gtk, GObject, GdkPixbuf
-from gi.repository import AppIndicator3 as AppIndicator
+
+try:
+    from gi.repository import AppIndicator3 as AppIndicator
+    appindicator_imported = True
+except ImportError:
+    appindicator_imported = False
 
 APP_IMAGES = [os.path.abspath(os.path.dirname(__file__)) + '/icons/1.png',
               os.path.abspath(os.path.dirname(__file__)) + '/icons/2.png',
@@ -71,28 +80,23 @@ class CPUsage:
 
 class AboutDialog(Gtk.AboutDialog):
     def __init__(self):
-        global APP_NAME, APP_IMAGES, APP_VERSION, APP_LICENCE, APP_AUTHOR, APP_WEBSITE
+        global APP_NAME, APP_IMAGES, APP_VERSION, APP_LICENCE, APP_COPYRIGHT, APP_AUTHORS, APP_WEBSITE
         Gtk.AboutDialog.__init__(self)
         self.set_icon_from_file(APP_IMAGES[0])
         self.set_logo(GdkPixbuf.Pixbuf.new_from_file(APP_IMAGES[0]))
         self.set_program_name(APP_NAME)
         self.set_version(APP_VERSION)
-        self.set_copyright('Copyright (c) 2014\n' + APP_AUTHOR)
+        self.set_copyright(APP_COPYRIGHT)
         self.set_license(APP_LICENCE.strip())
-        self.set_authors([APP_AUTHOR])
+        self.set_authors(APP_AUTHORS)
         self.set_artists(['id Software'])
         self.set_website(APP_WEBSITE)
         self.connect('response', lambda self, *args: self.destroy())
         self.show_all()
 
-
-class DOOMCPUIndicator(object):
+class AbstractDOOMCPUIndicator(object):
     def __init__(self):
         global APP_IMAGES
-        self.app_indicator = AppIndicator.Indicator.new(APP_NAME, APP_IMAGES[0],
-                                                        AppIndicator.IndicatorCategory.APPLICATION_STATUS)
-
-        self.app_indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
         GObject.timeout_add(1000, self.on_update_timer)
 
         self.menu_item = None
@@ -103,25 +107,23 @@ class DOOMCPUIndicator(object):
         self.on_update_timer()
 
     def build_menu(self):
-        menu = Gtk.Menu()
+        self.menu = Gtk.Menu()
         self.menu_item = Gtk.MenuItem()
-        menu.append(self.menu_item)
+        self.menu.append(self.menu_item)
 
         self.cpu_load_menu_item = Gtk.MenuItem('CPU: 0%')
         self.cpu_load_menu_item.set_sensitive(False)
-        menu.append(self.cpu_load_menu_item)
+        self.menu.append(self.cpu_load_menu_item)
 
-        menu.append(Gtk.SeparatorMenuItem())
+        self.menu.append(Gtk.SeparatorMenuItem())
         menu_item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_ABOUT, None)
         menu_item.connect('activate', self.on_about)
-        menu.append(menu_item)
+        self.menu.append(menu_item)
 
         menu_item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_QUIT, None)
         menu_item.connect('activate', self.on_quit)
-        menu.append(menu_item)
-        menu.show_all()
-
-        self.app_indicator.set_menu(menu)
+        self.menu.append(menu_item)
+        self.menu.show_all()
 
     def on_update_timer(self):
         global APP_IMAGES, APP_NUM_IMAGES
@@ -129,7 +131,7 @@ class DOOMCPUIndicator(object):
         image_idx = cpu_load / (100/(APP_NUM_IMAGES-1))
 
         if image_idx != self.previous_image_idx:
-            self.app_indicator.set_icon(APP_IMAGES[image_idx])
+        	self.set_icon(APP_IMAGES[image_idx])
 
         if cpu_load != self.previous_cpu_load:
             self.cpu_load_menu_item.set_label('CPU: %d%%' % int(cpu_load))
@@ -144,8 +146,42 @@ class DOOMCPUIndicator(object):
     def on_about(self, widget):
         AboutDialog()
 
+    def set_icon(self, icon):
+    	pass
+
     def run(self):
         Gtk.main()
 
+class DOOMCPUIndicator(AbstractDOOMCPUIndicator):
+    def __init__(self):
+        self.app_indicator = AppIndicator.Indicator.new(APP_NAME, APP_IMAGES[0],
+                                                        AppIndicator.IndicatorCategory.APPLICATION_STATUS)
+        AbstractDOOMCPUIndicator.__init__(self)
+        self.app_indicator.set_status(AppIndicator.IndicatorStatus.ACTIVE)
+
+    def build_menu(self):
+        super(DOOMCPUIndicator, self).build_menu()
+        self.app_indicator.set_menu(self.menu)
+
+    def set_icon(self, icon):
+    	super(DOOMCPUIndicator, self).set_icon(icon)
+    	self.app_indicator.set_icon(icon)
+
+
+class DOOMCPUStatusIcon(AbstractDOOMCPUIndicator):
+    def __init__(self):
+        AbstractDOOMCPUIndicator.__init__(self)
+        self.icon_indicator = Gtk.StatusIcon()
+        self.icon_indicator.set_from_file(APP_IMAGES[0])
+        self.icon_indicator.connect('popup-menu', lambda data, evt, time:
+                                                         self.menu.popup(None, None, None, None, evt, time))
+
+    def set_icon(self, icon):
+        super(DOOMCPUStatusIcon, self).set_icon(icon)
+        self.icon_indicator.set_from_file(icon)
+
 if __name__ == '__main__':
-    DOOMCPUIndicator().run()
+    if appindicator_imported:
+        DOOMCPUIndicator().run()
+    else:
+        DOOMCPUStatusIcon().run()
