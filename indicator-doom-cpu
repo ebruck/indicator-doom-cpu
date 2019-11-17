@@ -24,7 +24,10 @@ APP_AUTHORS = [a[10:] for a in str.splitlines(APP_LICENCE) if a.startswith("Copy
 import os
 import time
 
-from gi.repository import Gtk, GObject, GdkPixbuf
+from gi import require_version
+require_version('Gtk', '3.0')
+
+from gi.repository import Gtk, GLib, GObject, GdkPixbuf
 
 try:
     from gi.repository import AppIndicator3 as AppIndicator
@@ -129,7 +132,7 @@ class AbstractDOOMCPUIndicator(object):
         image_idx = cpu_load / (100/(APP_NUM_IMAGES-1))
 
         if image_idx != self.previous_image_idx:
-        	self.set_icon(APP_IMAGES[image_idx])
+            self.set_icon(APP_IMAGES[image_idx])
 
         if cpu_load != self.previous_cpu_load:
             self.cpu_load_menu_item.set_label('CPU: %d%%' % int(cpu_load))
@@ -145,7 +148,7 @@ class AbstractDOOMCPUIndicator(object):
         AboutDialog()
 
     def set_icon(self, icon):
-    	pass
+        pass
 
     def run(self):
         Gtk.main()
@@ -162,8 +165,8 @@ class DOOMCPUIndicator(AbstractDOOMCPUIndicator):
         self.app_indicator.set_menu(self.menu)
 
     def set_icon(self, icon):
-    	super(DOOMCPUIndicator, self).set_icon(icon)
-    	self.app_indicator.set_icon(icon)
+        super(DOOMCPUIndicator, self).set_icon(icon)
+        self.app_indicator.set_icon(icon)
 
 
 class DOOMCPUStatusIcon(AbstractDOOMCPUIndicator):
