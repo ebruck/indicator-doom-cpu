@@ -130,7 +130,7 @@ class AbstractDOOMCPUIndicator(object):
     def on_update_timer(self):
         global APP_IMAGES, APP_NUM_IMAGES
         cpu_load = int(CPUsage(interval=0.2).result)
-        image_idx = cpu_load / (100/(APP_NUM_IMAGES-1))
+        image_idx = int(cpu_load / (100/(APP_NUM_IMAGES-1)))
 
         if image_idx != self.previous_image_idx:
             self.set_icon(APP_IMAGES[image_idx])
