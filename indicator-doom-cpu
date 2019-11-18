@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 APP_LICENCE = '''
 Copyright (C) 2014 Edward G. Bruck <ed.bruck1@gmail.com>
 Copyright (C) 2017 Andrea Brancaleoni <miwaxe@gmail.com>
