@@ -180,6 +180,7 @@ class DOOMCPUStatusIcon(AbstractDOOMCPUIndicator):
 
     def set_icon(self, icon):
         super(DOOMCPUStatusIcon, self).set_icon(icon)
+        self.icon_indicator = Gtk.StatusIcon() # Werks
         self.icon_indicator.set_from_file(icon)
 
 if __name__ == '__main__':
