@@ -53,7 +53,7 @@ class CPUsage:
         self.result = self.compute()
 
     def get_time(self):
-        stat_file = file('/proc/stat', 'r')
+        stat_file = open('/proc/stat', 'r')
         time_list = stat_file.readline().split(' ')[2:6]
         stat_file.close()
         for i in range(len(time_list)):
