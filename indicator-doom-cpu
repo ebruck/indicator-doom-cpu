@@ -99,7 +99,7 @@ class AboutDialog(Gtk.AboutDialog):
 class AbstractDOOMCPUIndicator(object):
     def __init__(self):
         global APP_IMAGES
-        GObject.timeout_add(1000, self.on_update_timer)
+        GLib.timeout_add(1000, self.on_update_timer)
 
         self.menu_item = None
         self.cpu_load_menu_item = None
